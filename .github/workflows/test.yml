@@ -1,0 +1,22 @@
+name: Build and Deploy to Sandbox
+
+on:
+  
+  workflow_dispatch:
+    branches: [ main ]
+    
+jobs:
+  
+
+  build:
+    
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+    - id: get-artifact-id
+      name: Get artifactId
+      shell: bash
+      run: |
+        artifactId=$(echo '${project.artifactId}' | mvn -N -q -DforceStdout help:evaluate)
+        echo "::set-output name=artifactId::$artifactId"
